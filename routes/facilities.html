@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  <title>Facilities</title>
+  <style>
+    /*NAVBAR*/
+    .navbar-nav .nav-item .nav-link {
+      color: #444;
+    }
+
+    .navbar-nav .nav-item.active .nav-link,
+    .navbar-nav .nav-item:hover .nav-link {
+      color: #00b337;
+    }
+
+    /* NAVBAR END */
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/"><strong
+          style="font-weight: 700;font-size: 16px;letter-spacing: 1px; text-transform: uppercase; ">USARC Industrial
+          Hygiene</strong></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="facilities"><strong
+                style="font-weight: 700;font-size: 16px;letter-spacing: 1px; text-transform: uppercase">Facilities</strong><span
+                class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tests"><strong
+                style="margin-left:2vw; font-weight: 700;font-size: 16px;letter-spacing: 1px; text-transform: uppercase">Tests</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contaminants"><strong
+                style="margin-left:2vw; font-weight: 700;font-size: 16px;letter-spacing: 1px; text-transform: uppercase">Contaminants</strong></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+
+  <div class="container alert alert-success" id="mainAlert" role="alert" style="width:75%">
+    <span></span>
+    <button type="button" id="mainAlertCloseButton" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="container" style="width:80%">
+    <div style="position:absolute;">
+      <button type="button" class="btn btn-success" id="addButton" data-toggle="modal"
+        data-target="#addModal">Add</button>
+      <button type="button" class="btn btn-info" id="updateButton">Update</button>
+      <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+    </div>
+    <table id="table"></table>
+  </div>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="addForm" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add a Facility</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container alert alert-danger" id="addFailAlert" role="alert"
+              style="margin-top:0px; margin-bottom:20px">
+              <span></span>
+              <button type="button" id="addFailAlertCloseButton" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="form-group"> <input class="form-control" name="facid" type="text" placeholder="Facility ID"
+                required> </div>
+            <div class="form-group"> <input class="form-control" name="rpuid" type="text" placeholder="RPUID"> </div>
+            <div class="form-group"> <input class="form-control" name="sitename" type="text" placeholder="Site Name">
+            </div>
+            <div class="form-group"> <input class="form-control" name="sitecd" type="text" placeholder="Site CD"> </div>
+            <div class="form-group"> <input class="form-control" name="rpsui" type="text" placeholder="RPSUI"> </div>
+            <div class="form-group"> <input class="form-control" name="staco" type="text" placeholder="STACO"> </div>
+            <div class="form-group"> <input class="form-control" name="lat" type="number" placeholder="Latitude"
+                step="any" required> </div>
+            <div class="form-group"> <input class="form-control" name="long" type="number" placeholder="Longitude"
+                step="any" required> </div>
+            <div class="form-group"> <input class="form-control" name="street" type="text" placeholder="Street"> </div>
+            <div class="form-group"> <input class="form-control" name="city" type="text" placeholder="City"> </div>
+            <div class="form-group"> <input class="form-control" name="state" type="text" placeholder="State"> </div>
+            <div class="form-group"> <input class="form-control" name="zip" type="text" placeholder="Zip"> </div>
+            <div class="form-group"> <input class="form-control" name="countyname" type="text"
+                placeholder="County Name"> </div>
+            <div class="form-group"> <input class="form-control" name="address" type="text"
+                placeholder="Complete Address"> </div>
+            <div class="form-group"> <input class="form-control" name="sitereporting" type="text"
+                placeholder="Site Reporting"> </div>
+            <div class="form-group"> <input class="form-control" name="installationname" type="text"
+                placeholder="Installation Name"> </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Discard</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="updateForm" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update a Facility</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container alert alert-danger" id="updateFailAlert" role="alert"
+              style="margin-top:0px; margin-bottom:20px">
+              <span></span>
+              <button type="button" id="updateFailAlertCloseButton" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="form-group"> <label for="updatefacid">Facility ID</label> <input class="form-control"
+                id="updatefacid" name="facid" type="text" placeholder="Facility ID" readonly="readonly" required> </div>
+            <div class="form-group"> <label for="updaterpuid">RPUID</label> <input class="form-control" id="updaterpuid"
+                name="rpuid" type="text" placeholder="RPUID"> </div>
+            <div class="form-group"> <label for="updatesitename">Site Name</label> <input class="form-control"
+                id="updatesitename" name="sitename" type="text" id="sitename" placeholder="Site Name"> </div>
+            <div class="form-group"> <label for="updatesitecd">Site CD</label> <input class="form-control"
+                id="updatesitecd" name="sitecd" type="text" placeholder="Site CD"> </div>
+            <div class="form-group"> <label for="updaterpsui">RPSUI</label> <input class="form-control" id="updaterpsui"
+                name="rpsui" type="text" placeholder="RPSUI"> </div>
+            <div class="form-group"> <label for="updatestaco">STACO</label> <input class="form-control" id="updatestaco"
+                name="staco" type="text" placeholder="STACO"> </div>
+            <div class="form-group"> <label for="updatelat">Latitude</label> <input class="form-control" id="updatelat"
+                name="lat" type="number" placeholder="Latitude" step="any" required> </div>
+            <div class="form-group"> <label for="updatelong">Longitude</label> <input class="form-control"
+                id="updatelong" name="long" type="number" placeholder="Longitude" step="any" required> </div>
+            <div class="form-group"> <label for="updatestreet">Street</label> <input class="form-control"
+                id="updatestreet" name="street" type="text" placeholder="Street"> </div>
+            <div class="form-group"> <label for="updatecity">City</label> <input class="form-control" id="updatecity"
+                name="city" type="text" placeholder="City"> </div>
+            <div class="form-group"> <label for="updatestate">State</label> <input class="form-control" id="updatestate"
+                name="state" type="text" placeholder="State"> </div>
+            <div class="form-group"> <label for="updatezip">Zip</label> <input class="form-control" id="updatezip"
+                name="zip" type="text" placeholder="Zip"> </div>
+            <div class="form-group"> <label for="updatecountyname">County Name</label> <input class="form-control"
+                id="updatecountyname" name="countyname" type="text" placeholder="County Name"> </div>
+            <div class="form-group"> <label for="updateaddress">Complete Address</label> <input class="form-control"
+                id="updateaddress" name="address" type="text" placeholder="Complete Address"> </div>
+            <div class="form-group"> <label for="updatesitereporting">Site Reporting</label> <input class="form-control"
+                id="updatesitereporting" name="sitereporting" type="text" placeholder="Site Reporting"> </div>
+            <div class="form-group"> <label for="updateinstallationname">Installation Name</label> <input
+                class="form-control" id="updateinstallationname" name="installationname" type="text"
+                placeholder="Installation Name"> </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Discard</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var $table = $('#table');
+
+    $('#mainAlertCloseButton').on('click', function (e) {
+      $('#mainAlert').hide();
+    });
+    $('#mainAlert').hide();
+
+    $('#addFailAlertCloseButton').on('click', function (e) {
+      $('#addFailAlert').hide();
+    });
+    $('#addFailAlert').hide();
+
+    $('#updateFailAlertCloseButton').on('click', function (e) {
+      $('#updateFailAlert').hide();
+    });
+    $('#updateFailAlert').hide();
+
+    function loadTable() {
+    fetch('/getfacilities').then(response => response.text().then(rows => {
+      rows = JSON.parse(rows);
+      $('#table').bootstrapTable({
+        clickToSelect: true,
+        multipleSelectRow: true,
+        // onDblClickRow: function (row, $element, field) { $('#updateModal').modal('show'); fillUpdateForm(row); },
+        pagination: true,
+        pageSize: 25,
+        search: true,
+        columns: [{
+          field: 'checkbox',
+          checkbox: true,
+        }, {
+          field: 'facid',
+          title: 'Facility ID'
+        }, {
+          field: 'rpuid',
+          title: 'RPUID',
+        }, {
+          field: 'sitename',
+          title: 'Site Name'
+        }, {
+          field: 'sitecd',
+          title: 'Site CD',
+          visible: false,
+        }, {
+          field: 'rpsui',
+          title: 'RPSUI',
+          visible: false,
+        }, {
+          field: 'staco',
+          title: 'STACO',
+          visible: false,
+        }, {
+          field: 'lat',
+          title: 'Latitude',
+          visible: false,
+        }, {
+          field: 'long',
+          title: 'Longitude',
+          visible: false,
+        }, {
+          field: 'street',
+          title: 'Street',
+          visible: false,
+        }, {
+          field: 'city',
+          title: 'City',
+          visible: false,
+        }, {
+          field: 'state',
+          title: 'State',
+          visible: false,
+        }, {
+          field: 'zip',
+          title: 'Zip',
+          visible: false,
+        }, {
+          field: 'countyname',
+          title: 'County Name',
+          visible: false,
+        },
+        {
+          field: 'address',
+          title: 'Complete Address'
+        },
+        {
+          field: 'sitereporting',
+          title: 'Site Reporting'
+        },
+        {
+          field: 'installationname',
+          title: 'Installation Name'
+        },
+        ],
+        data: rows
+      });
+    }));
+  }
+  loadTable();
+
+    function fillUpdateForm(row) {
+      for (let key in row) {
+        if (key == 'checkbox') { continue; }
+        else {
+          let value = row[key];
+          document.getElementById(`update${key}`).setAttribute('value', value);
+        }
+      }
+    }
+
+    function showSuccessAlert(msg) {
+      $('#mainAlert').removeClass('alert-danger').addClass('alert-success');
+      $('#mainAlert').children('span').first().text(msg);
+      $('#mainAlert').show();
+    }
+
+    function showFailAlert(msg) {
+      $('#mainAlert').removeClass('alert-success').addClass('alert-danger');
+      $('#mainAlert').children('span').first().text(msg);
+      $('#mainAlert').show();
+    }
+
+    function refreshTable() {
+      $table.bootstrapTable('destroy');
+      loadTable();
+    }
+
+    var $updateButton = $('#updateButton');
+    $(function () {
+      $updateButton.click(function () {
+        rows = $table.bootstrapTable('getSelections');
+        if (rows.length < 1) {
+          alert("Please select a facility to update.");
+        }
+        else if (rows.length > 1) {
+          alert("Multiple facilities are selected. Please click on a single facility to update.");
+        }
+        else {
+          $('#updateModal').modal('show');
+          fillUpdateForm(rows[0]);
+        }
+      })
+    });
+
+    $('#addForm').submit(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '/addfacility',
+        data: $(this).serialize(),
+        success: msg => {
+          showSuccessAlert(msg);
+          $('#addModal').modal('hide');
+          $("#addForm").trigger('reset');
+          refreshTable();
+        },
+        error: msg => {
+          $('#addFailAlert').children('span').first().text(msg.responseText);
+          $('#addFailAlert').show();
+        },
+      });
+    })
+
+    $('#updateForm').submit(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '/updatefacility',
+        data: $(this).serialize(),
+        success: msg => {
+          showSuccessAlert(msg);
+          $('#updateModal').modal('hide');
+          $("#updateForm").trigger('reset');
+          refreshTable();
+        },
+        error: msg => {
+          $('#updateFailAlert').children('span').first().text(msg.responseText);
+          $('#updateFailAlert').show();
+        },
+      });
+    })
+
+    var $deleteButton = $('#deleteButton');
+    $(function () {
+      $deleteButton.click(function () {
+        rows = $table.bootstrapTable('getSelections');
+        if (rows.length < 1) {
+          alert("Please select a facility to delete.");
+        }
+        else if (rows.length > 1) {
+          alert("Multiple facilities are selected. please select a single facility to delete.");
+          /*
+          let alertMultipleText = "You have selected multiple facilities to delete: ";
+          for (let index in rows) {
+            alertMultipleText += `${rows[index].facid}, `;
+          }
+          alertMultipleText = alertMultipleText.substring(0, alertMultipleText.length-2);
+          alertMultipleText += ". Do you want to proceed?"
+          if (confirm(alertMultipleText)) {
+            // deleteMultipleFacilities(...);
+            console.log('Deleted multiple facilities.');
+          } else {
+            console.log('Canceled multiple deletion.');
+          }
+          */
+        }
+        else {
+          let facid = rows[0].facid;
+          let alertText = `Deleting facility ${facid}. Do you want to proceed?`;
+          if (confirm(alertText)) {
+            fetch("/deletefacility", {
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ "facid": facid })
+            }).then(res => {
+              if (res.status == 200) {
+                res.text().then(text => showSuccessAlert(text));
+                refreshTable();
+              }
+              else {
+                res.text().then(text => showFailAlert(text));
+              }
+            });
+          } else {
+            console.log('Canceled deletion.');
+          }
+        }
+      })
+    });
+
+
+  </script>
+
+</body>
+
+</html>
